@@ -1,0 +1,27 @@
+spring:
+  messages:
+    encoding: UTF-8
+  data:
+    mongodb:
+#      port: 0
+#      database: awesomeMongo
+      host: localhost
+      port: 27017
+      database: booksDB
+#  main:
+#    allow-circular-references: true
+#    web-application-type: NONE
+
+mongock:
+  runner-type: "ApplicationRunner" # default
+#  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.mvcspring.changelogs
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
+
+logging:
+  level:
+    root: ERROR
