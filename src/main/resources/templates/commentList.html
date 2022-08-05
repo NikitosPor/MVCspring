@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en"><head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
 
 
+    <meta charset="UTF-8">
+    <title>List of all comments</title>
 
-
-    <meta charset="UTF-8"><title>List of all comments</title>
-    
     <style type="text/css">
         body {
             padding: 50px;
@@ -46,8 +46,9 @@
             padding: 2px;
             padding-left: 30px;
         }
-
-    </style></head><body>
+    </style>
+</head>
+<body>
 
 <h3 th:text="#{lang-switcher-header}">Select language</h3>
 <div style="color: rgb(204, 0, 0);">
@@ -56,33 +57,34 @@
 </div>
 
 <h3 th:text="#{comments-table-header}">Comments :</h3>
-
-<table style="color: rgb(4, 7, 4);" class="book" border="1" cellpadding="5" cellspacing="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Comment</th>
-        <th>Book title</th>
-        <th><br></th>
-        <th><br></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="comment : ${comments}">
-        <td th:text="${comment.id}">1</td>
-        <td th:text="${comment.comment}">The great example of ...</td>
-        <td th:text="${comment.title}">Leo Tolstoy</td>
-        <td>
-            <a th:href="@{/edit(id=${comment.id})}" href="edit.html" th:text="#{edit-button-caption}">Edit</a>
-        </td>
-        <td>
-            <a th:href="@{/delete(id=${comment.id})}" href="edit.html" th:text="#{delete-button-caption}">Delete</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<br>
-<div>
-    <button type="submit" href="edit.html" th:text="#{create-button-caption}">Create a comment</button>
+<div th:with="bookId=${bookId}">
+    <table style="color: rgb(4, 7, 4);" class="book" border="1" cellpadding="5" cellspacing="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Comment</th>
+            <th><br></th>
+            <th><br></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="comment : ${commentList}">
+            <td th:text="${comment.id}">1</td>
+            <td th:text="${comment.comment}">The great example of ...</td>
+            <td>
+                <a th:href="@{/edit(id=${comment.id})}" href="edit.html" th:text="#{edit-button-caption}">Edit</a>
+            </td>
+            <td>
+                <a th:href="@{/comment/delete(id=${comment.id}, bookId=${bookId})}" href="commentList.html"
+                   th:text="#{delete-button-caption}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <button type="button">
+        <a th:href="@{/comment/create(bookId=${bookId})}" th:text="#{create-button-caption}">Create a comment</a>>
+    </button>
 </div>
-</body></html>
+</body>
+</html>
