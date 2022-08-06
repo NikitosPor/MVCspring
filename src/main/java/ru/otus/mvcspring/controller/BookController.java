@@ -47,7 +47,7 @@ public class BookController {
     }
 
     @PostMapping("/edit")
-    public String editBook(@Valid @ModelAttribute("book") BookDto bookDto, BindingResult bindingResult, String id, Model model) {
+    public String editBook(@Valid @ModelAttribute("book") BookDto bookDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "bookEdit";
         }

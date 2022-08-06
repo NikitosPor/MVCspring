@@ -72,7 +72,7 @@
             <td th:text="${comment.id}">1</td>
             <td th:text="${comment.comment}">The great example of ...</td>
             <td>
-                <a th:href="@{/edit(id=${comment.id})}" href="edit.html" th:text="#{edit-button-caption}">Edit</a>
+                <a th:href="@{/comment/edit(id=${comment.id}, bookId=${bookId})}" href="commentEdit.html" th:text="#{edit-button-caption}">Edit</a>
             </td>
             <td>
                 <a th:href="@{/comment/delete(id=${comment.id}, bookId=${bookId})}" href="commentList.html"
