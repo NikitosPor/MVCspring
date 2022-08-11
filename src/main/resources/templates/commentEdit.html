@@ -46,7 +46,7 @@
 
 <!-- Person edition -->
 <form id="edit-form" action="commentEdit.html" th:action="@{/comment/edit(bookId=${bookId})}" th:method="post" th:object="${comment}">
-    <h3 th:text = "#{comment-form-header-form-header}">Comment Info:</h3>
+    <h3 th:text = "#{comment-creation-form-header}">Comment Info:</h3>
 
     <div class="row">
         <label for="id-input">ID:</label>
