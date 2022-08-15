@@ -84,7 +84,6 @@
 <script type="text/javascript">
     const table = document.getElementById('bookTable');
 
-
     fetch('http://localhost:8080/book/getAll')
         .then((response) => response.json())
         .then((bookDto) => bookDto
