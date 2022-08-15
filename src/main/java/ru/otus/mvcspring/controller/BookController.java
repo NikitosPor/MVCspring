@@ -11,6 +11,7 @@ import ru.otus.mvcspring.repositories.BookRepository;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/book")
@@ -23,13 +24,13 @@ public class BookController {
         this.bookRepository = bookRepository;
     }
 
-    @GetMapping("/getAll")
-    public String getBookList(Model model) {
-        List<Book> bookList = bookRepository.findAll();
-        model.addAttribute("bookList", bookList);
-
-        return "bookList";
-    }
+//    @GetMapping("/getAll")
+//    public String getBookList(Model model) {
+//        List<Book> bookList = bookRepository.findAll();
+//        model.addAttribute("bookList", bookList);
+//
+//        return "bookList";
+//    }
 
     @GetMapping("/delete")
     public String deleteBook(@RequestParam("id") String id, Model model) {

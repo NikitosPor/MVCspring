@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en"><head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of all books</title>
 
-
-
-
-    <meta charset="UTF-8"><title>List of all books</title>
-    
     <style type="text/css">
         body {
             padding: 50px;
@@ -46,13 +44,15 @@
             padding: 2px;
             padding-left: 30px;
         }
-
-    </style></head><body>
-
+    </style>
+</head>
+<body>
 <h3 th:text="#{lang-switcher-header}">Select language</h3>
 <div style="color: rgb(204, 0, 0);">
-    <div><a href="#" th:href="@{/book/getAll/(lang=en)}" th:text="#{en-lang-switch-button-caption}">Language - EN</a></div>
-    <div><a href="#" th:href="@{/book/getAll/(lang=ru)}" th:text="#{ru-lang-switch-button-caption}">Language - RU</a></div>
+    <div><a href="#" th:href="@{/book/getAll/(lang=en)}" th:text="#{en-lang-switch-button-caption}">Language - EN</a>
+    </div>
+    <div><a href="#" th:href="@{/book/getAll/(lang=ru)}" th:text="#{ru-lang-switch-button-caption}">Language - RU</a>
+    </div>
 </div>
 
 <h3 th:text="#{books-table-header}">Books :</h3>
@@ -69,28 +69,48 @@
         <th><br></th>
     </tr>
     </thead>
-    <tbody>
-    <tr th:each="book : ${bookList}">
-        <td th:text="${book.id}">1</td>
-        <td th:text="${book.title}">War and peace</td>
-        <td th:text="${book.author.getName()}">Leo Tolstoy</td>
-        <td th:text="${book.genre.getTitle()}">Drama</td>
-        <td>
-            <a th:href="@{/book/edit(id=${book.id})}" href="edit.html" th:text="#{edit-button-caption}">Edit</a>
-        </td>
-        <td>
-            <a th:href="@{/book/delete(id=${book.id})}" href="bookList.html" th:text="#{delete-button-caption}">Delete</a>
-        </td>
-        <td>
-            <a th:href="@{/comment/getAllByBookId(id=${book.id})}" href="commentList.html" th:text="#{comments-button-caption}">Check comments</a>
-        </td>
-    </tr>
+    <tbody id="bookTable">
     </tbody>
+
+
 </table>
 <br>
 <div>
-    <button type="button" >
+    <button type="button">
         <a th:href="@{/book/create}" th:text="#{create-button-caption}">Create a book</a>>
     </button>
 </div>
-</body></html>
+
+<script type="text/javascript">
+    const table = document.getElementById('bookTable');
+
+
+    fetch('http://localhost:8080/book/getAll')
+        .then((response) => response.json())
+        .then((bookDto) => bookDto
+                .map(function (bookDto) {
+                    let tr = document.createElement('tr');
+                    let tdId = document.createElement('td').innerHTML = '${bookDto.id}';
+                    let tdTitle = document.createElement('td').innerHTML = '${bookDto.title}';
+                    let tdAuthor = document.createElement('td').innerHTML = '${bookDto.author}';
+                    let tdGenre = document.createElement('td').innerHTML = '${bookDto.genre}';
+                    tr.append(tdId, tdTitle, tdAuthor, tdGenre);
+                    table.appendChild(tr);
+                })
+
+            //$('tbody').append('<tr><td>${bookDto.id}</td><td>${book.title}</td><td>${book.author}</td><td>${book.genre}</td></tr>'))
+        );
+
+
+    //    fetch('http://localhost:8080/book/getAll').then((response) => response.json())
+    //    .then((bookDto) => {
+    //        // let booksDto = data;
+    //        // data.map((bookDto)=>{
+    //            console.log(bookDto)
+    //          //  $('tbody').append('<tr><td>${bookDto.id}</td><td>${book.title}</td><td>${book.author.getName()}</td><td>${book.genre.getTitle()}</td></tr>')
+    // //       });
+    //    })
+</script>
+
+</body>
+</html>
