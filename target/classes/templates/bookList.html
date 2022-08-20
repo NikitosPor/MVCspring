@@ -57,7 +57,7 @@
 
 <h3 th:text="#{books-table-header}">Books :</h3>
 
-<table style="color: rgb(4, 7, 4);" class="book" border="1" cellpadding="5" cellspacing="1">
+<table style="color: rgb(4, 7, 4);" class="book" border="1" cellpadding="5" cellspacing="1" id="bookTable">
     <thead>
     <tr>
         <th>ID</th>
@@ -69,10 +69,73 @@
         <th><br></th>
     </tr>
     </thead>
-    <tbody id="bookTable">
+    <tbody id="tableBody">
+<!--    <tr>-->
+        <script type="text/javascript">
+            const bookTableRow = document.getElementById('bookTableRow');
+            const tableBody = document.getElementById('tableBody');
+
+
+            // function createNodeWithValue(elem, value) {
+            //    let element = document.createElement(elem);
+            //    element.innerHTML = value;
+            //
+            //    return element;
+            // }
+            //
+            // function append(parent, el) {
+            //     return parent.appendChild(el);
+            // }
+
+            fetch('http://localhost:8080/book/getAll')
+                .then((response) => response.text())
+                .then((books) => {books.map((book) => {
+                                tableBody.append(' <tr> ' +
+                                    '    <td>${book.id}</td>\n' +
+                                    '    <td>${book.title}</td>\n' +
+                                    '    <td>${book.author}</td>\n' +
+                                    '    <td>${book.genre}</td>\n' +
+                                    '    <td>\n' +
+                                    '      <a th:href="@{/book/edit(id=${book.id})}" href="edit.html" th:text="#{edit-button-caption}">Edit</a>\n' +
+                                    '    </td>\n' +
+                                    '    <td>\n' +
+                                    '      <a th:href="@{/book/delete(id=${book.id})}" href="bookList.html" th:text="#{delete-button-caption}">Delete</a>\n' +
+                                    '    </td>\n' +
+                                    '    <td>\n' +
+                                    '      <a th:href="@{/comment/getAllByBookId(id=${book.id})}" href="commentList.html" th:text="#{comments-button-caption}">Check comments</a>\n' +
+                                    '    </td>\n' +
+                                    '  </tr>');
+                            })
+                        });
+
+                    //$('tbody').append('<tr><td>${bookDto.id}</td><td>${book.title}</td><td>${book.author}</td><td>${book.genre}</td></tr>'))
+
+
+
+            //    fetch('http://localhost:8080/book/getAll').then((response) => response.json())
+            //    .then((bookDto) => {
+            //        // let booksDto = data;
+            //        // data.map((bookDto)=>{
+            //            console.log(bookDto)
+            //          //  $('tbody').append('<tr><td>${bookDto.id}</td><td>${book.title}</td><td>${book.author.getName()}</td><td>${book.genre.getTitle()}</td></tr>')
+            // //       });
+            //    })
+        </script>
+<!--        <td th:text="${book.id}">1</td>-->
+<!--        <td th:text="${book.title}">War and peace</td>-->
+<!--        <td th:text="${book.author.getName()}">Leo Tolstoy</td>-->
+<!--        <td th:text="${book.genre.getTitle()}">Drama</td>-->
+<!--        <td>-->
+<!--            <a th:href="@{/book/edit(id=${book.id})}" href="edit.html" th:text="#{edit-button-caption}">Edit</a>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <a th:href="@{/book/delete(id=${book.id})}" href="bookList.html" th:text="#{delete-button-caption}">Delete</a>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <a th:href="@{/comment/getAllByBookId(id=${book.id})}" href="commentList.html" th:text="#{comments-button-caption}">Check comments</a>-->
+<!--        </td>-->
+<!--    </tr>-->
     </tbody>
-
-
 </table>
 <br>
 <div>
@@ -83,7 +146,6 @@
 
 <script type="text/javascript">
     const table = document.getElementById('bookTable');
-
 
     fetch('http://localhost:8080/book/getAll')
         .then((response) => response.json())
