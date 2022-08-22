@@ -81,9 +81,9 @@
 </div>
 
 <script type="text/javascript">
-    const tableRow = document.getElementById('tableRow');
-    //const tableBody = document.getElementById('tableBody');
-    //const table = document.getElementById('bookTable');
+    //const tableRow = document.getElementById('tableRow');
+   // const tableBody = document.getElementById('tableBody');
+    const table = document.getElementById('bookTable');
 
     function createNode(elem) {
         return  document.createElement(elem);
@@ -97,23 +97,31 @@
         .then((response) => response.json())
         .then((bookDto) => bookDto
                 .map(function (bookDto) {
-                    let tdId = createNode('td').innerHTML = bookDto.id;
-                    let tdTitle = createNode('td').innerHTML = bookDto.title;
-                    let tdAuthor = createNode('td').innerHTML = bookDto.author;
-                    let tdGenre = createNode('td').innerHTML = bookDto.genre;
+                    let tr = createNode('tr')
+                    let tdId = createNode('td')
+                    let tdTitle = createNode('td')
+                    let tdAuthor = createNode('td')
+                    let tdGenre = createNode('td')
+                    let tdEdit = createNode('td')
+                    let tdDelete = createNode('td')
+                    let tdComments = createNode('td')
 
                     tdId.innerHTML = bookDto.id;
                     tdTitle.innerHTML = bookDto.title;
                     tdAuthor.innerHTML = bookDto.author;
                     tdGenre.innerHTML = bookDto.genre;
+                    tdEdit.innerHTML = "<a href='/book/edit?id=" + bookDto.id +"'>Edit</a>";
+                    tdDelete.innerHTML = "<a href='/book/delete?id=" + bookDto.id +"'>Delete</a>";
+                    tdComments.innerHTML = "<a href='/comment/getAllByBookId?id=" + bookDto.id +"'>Check comments</a>";
 
-                    tableRow.append(tdId);
-                    tableRow.append(tdTitle);
-                    tableRow.append(tdAuthor);
-                    tableRow.append(tdGenre);
-                    tableRow.append("Edit");
-                    tableRow.append("Delete");
-                   // tableRow.appendChild(tr);
+                    tr.append(tdId);
+                    tr.append(tdTitle);
+                    tr.append(tdAuthor);
+                    tr.append(tdGenre);
+                    tr.append(tdEdit);
+                    tr.append(tdDelete);
+                    tr.append(tdComments);
+                    table.appendChild(tr);
                 })
         );
 
