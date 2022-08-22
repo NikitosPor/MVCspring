@@ -70,71 +70,7 @@
     </tr>
     </thead>
     <tbody id="tableBody">
-<!--    <tr>-->
-        <script type="text/javascript">
-            const bookTableRow = document.getElementById('bookTableRow');
-            const tableBody = document.getElementById('tableBody');
-
-
-            // function createNodeWithValue(elem, value) {
-            //    let element = document.createElement(elem);
-            //    element.innerHTML = value;
-            //
-            //    return element;
-            // }
-            //
-            // function append(parent, el) {
-            //     return parent.appendChild(el);
-            // }
-
-            fetch('http://localhost:8080/book/getAll')
-                .then((response) => response.text())
-                .then((books) => {books.map((book) => {
-                                tableBody.append(' <tr> ' +
-                                    '    <td>${book.id}</td>\n' +
-                                    '    <td>${book.title}</td>\n' +
-                                    '    <td>${book.author}</td>\n' +
-                                    '    <td>${book.genre}</td>\n' +
-                                    '    <td>\n' +
-                                    '      <a th:href="@{/book/edit(id=${book.id})}" href="edit.html" th:text="#{edit-button-caption}">Edit</a>\n' +
-                                    '    </td>\n' +
-                                    '    <td>\n' +
-                                    '      <a th:href="@{/book/delete(id=${book.id})}" href="bookList.html" th:text="#{delete-button-caption}">Delete</a>\n' +
-                                    '    </td>\n' +
-                                    '    <td>\n' +
-                                    '      <a th:href="@{/comment/getAllByBookId(id=${book.id})}" href="commentList.html" th:text="#{comments-button-caption}">Check comments</a>\n' +
-                                    '    </td>\n' +
-                                    '  </tr>');
-                            })
-                        });
-
-                    //$('tbody').append('<tr><td>${bookDto.id}</td><td>${book.title}</td><td>${book.author}</td><td>${book.genre}</td></tr>'))
-
-
-
-            //    fetch('http://localhost:8080/book/getAll').then((response) => response.json())
-            //    .then((bookDto) => {
-            //        // let booksDto = data;
-            //        // data.map((bookDto)=>{
-            //            console.log(bookDto)
-            //          //  $('tbody').append('<tr><td>${bookDto.id}</td><td>${book.title}</td><td>${book.author.getName()}</td><td>${book.genre.getTitle()}</td></tr>')
-            // //       });
-            //    })
-        </script>
-<!--        <td th:text="${book.id}">1</td>-->
-<!--        <td th:text="${book.title}">War and peace</td>-->
-<!--        <td th:text="${book.author.getName()}">Leo Tolstoy</td>-->
-<!--        <td th:text="${book.genre.getTitle()}">Drama</td>-->
-<!--        <td>-->
-<!--            <a th:href="@{/book/edit(id=${book.id})}" href="edit.html" th:text="#{edit-button-caption}">Edit</a>-->
-<!--        </td>-->
-<!--        <td>-->
-<!--            <a th:href="@{/book/delete(id=${book.id})}" href="bookList.html" th:text="#{delete-button-caption}">Delete</a>-->
-<!--        </td>-->
-<!--        <td>-->
-<!--            <a th:href="@{/comment/getAllByBookId(id=${book.id})}" href="commentList.html" th:text="#{comments-button-caption}">Check comments</a>-->
-<!--        </td>-->
-<!--    </tr>-->
+    <tr id="tableRow"></tr>
     </tbody>
 </table>
 <br>
@@ -145,33 +81,42 @@
 </div>
 
 <script type="text/javascript">
-    const table = document.getElementById('bookTable');
+    const tableRow = document.getElementById('tableRow');
+    //const tableBody = document.getElementById('tableBody');
+    //const table = document.getElementById('bookTable');
+
+    function createNode(elem) {
+        return  document.createElement(elem);
+    }
+
+    function append(parent, elem) {
+        return parent.appendChild(elem);
+    }
 
     fetch('http://localhost:8080/book/getAll')
         .then((response) => response.json())
         .then((bookDto) => bookDto
                 .map(function (bookDto) {
-                    let tr = document.createElement('tr');
-                    let tdId = document.createElement('td').innerHTML = '${bookDto.id}';
-                    let tdTitle = document.createElement('td').innerHTML = '${bookDto.title}';
-                    let tdAuthor = document.createElement('td').innerHTML = '${bookDto.author}';
-                    let tdGenre = document.createElement('td').innerHTML = '${bookDto.genre}';
-                    tr.append(tdId, tdTitle, tdAuthor, tdGenre);
-                    table.appendChild(tr);
-                })
+                    let tdId = createNode('td').innerHTML = bookDto.id;
+                    let tdTitle = createNode('td').innerHTML = bookDto.title;
+                    let tdAuthor = createNode('td').innerHTML = bookDto.author;
+                    let tdGenre = createNode('td').innerHTML = bookDto.genre;
 
-            //$('tbody').append('<tr><td>${bookDto.id}</td><td>${book.title}</td><td>${book.author}</td><td>${book.genre}</td></tr>'))
+                    tdId.innerHTML = bookDto.id;
+                    tdTitle.innerHTML = bookDto.title;
+                    tdAuthor.innerHTML = bookDto.author;
+                    tdGenre.innerHTML = bookDto.genre;
+
+                    tableRow.append(tdId);
+                    tableRow.append(tdTitle);
+                    tableRow.append(tdAuthor);
+                    tableRow.append(tdGenre);
+                    tableRow.append("Edit");
+                    tableRow.append("Delete");
+                   // tableRow.appendChild(tr);
+                })
         );
 
-
-    //    fetch('http://localhost:8080/book/getAll').then((response) => response.json())
-    //    .then((bookDto) => {
-    //        // let booksDto = data;
-    //        // data.map((bookDto)=>{
-    //            console.log(bookDto)
-    //          //  $('tbody').append('<tr><td>${bookDto.id}</td><td>${book.title}</td><td>${book.author.getName()}</td><td>${book.genre.getTitle()}</td></tr>')
-    // //       });
-    //    })
 </script>
 
 </body>
