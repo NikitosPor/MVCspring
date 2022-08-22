@@ -24,19 +24,11 @@ public class BookController {
         this.bookRepository = bookRepository;
     }
 
-//    @GetMapping("/getAll")
-//    public String getBookList(Model model) {
-//        List<Book> bookList = bookRepository.findAll();
-//        model.addAttribute("bookList", bookList);
-//
-//        return "bookList";
-//    }
-
     @GetMapping("/delete")
     public String deleteBook(@RequestParam("id") String id, Model model) {
         bookRepository.deleteBookWithAllCommentsById(id);
 
-        return "redirect:/book/getAll";
+        return "redirect:/";
     }
 
     @GetMapping("/edit")
@@ -54,7 +46,7 @@ public class BookController {
         }
         bookRepository.updateTitleById(bookDto.getId(), bookDto.getTitle());
 
-        return "redirect:/book/getAll";
+        return "redirect:/";
     }
 
     @GetMapping("/create")
@@ -68,6 +60,6 @@ public class BookController {
     public String createBookSubmit(@ModelAttribute BookDto bookDto, Model model) {
         bookRepository.insert(bookDto.toDomainObject());
 
-        return "redirect:/book/getAll";
+        return "redirect:/";
     }
 }

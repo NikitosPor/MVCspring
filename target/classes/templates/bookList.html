@@ -93,7 +93,7 @@
         return parent.appendChild(elem);
     }
 
-    fetch('http://localhost:8080/book/getAll')
+    fetch('/book/getAll')
         .then((response) => response.json())
         .then((bookDto) => bookDto
                 .map(function (bookDto) {
@@ -114,13 +114,7 @@
                     tdDelete.innerHTML = "<a href='/book/delete?id=" + bookDto.id +"'>Delete</a>";
                     tdComments.innerHTML = "<a href='/comment/getAllByBookId?id=" + bookDto.id +"'>Check comments</a>";
 
-                    tr.append(tdId);
-                    tr.append(tdTitle);
-                    tr.append(tdAuthor);
-                    tr.append(tdGenre);
-                    tr.append(tdEdit);
-                    tr.append(tdDelete);
-                    tr.append(tdComments);
+                    tr.append(tdId, tdTitle, tdAuthor, tdGenre, tdEdit, tdDelete, tdComments)
                     table.appendChild(tr);
                 })
         );
