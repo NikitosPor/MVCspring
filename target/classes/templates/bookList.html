@@ -49,9 +49,9 @@
 <body>
 <h3 th:text="#{lang-switcher-header}">Select language</h3>
 <div style="color: rgb(204, 0, 0);">
-    <div><a href="#" th:href="@{/book/getAll/(lang=en)}" th:text="#{en-lang-switch-button-caption}">Language - EN</a>
+    <div><a href="#" th:href="@{/book/(lang=en)}" th:text="#{en-lang-switch-button-caption}">Language - EN</a>
     </div>
-    <div><a href="#" th:href="@{/book/getAll/(lang=ru)}" th:text="#{ru-lang-switch-button-caption}">Language - RU</a>
+    <div><a href="#" th:href="@{/book/(lang=ru)}" th:text="#{ru-lang-switch-button-caption}">Language - RU</a>
     </div>
 </div>
 
@@ -70,7 +70,7 @@
     </tr>
     </thead>
     <tbody id="tableBody">
-    <tr id="tableRow"></tr>
+    <tr></tr>
     </tbody>
 </table>
 <br>
@@ -81,8 +81,6 @@
 </div>
 
 <script type="text/javascript">
-    //const tableRow = document.getElementById('tableRow');
-   // const tableBody = document.getElementById('tableBody');
     const table = document.getElementById('bookTable');
 
     function createNode(elem) {
@@ -93,7 +91,7 @@
         return parent.appendChild(elem);
     }
 
-    fetch('/book/getAll')
+    fetch('/book')
         .then((response) => response.json())
         .then((bookDto) => bookDto
                 .map(function (bookDto) {
@@ -112,13 +110,12 @@
                     tdGenre.innerHTML = bookDto.genre;
                     tdEdit.innerHTML = "<a href='/book/edit?id=" + bookDto.id +"'>Edit</a>";
                     tdDelete.innerHTML = "<a href='/book/delete?id=" + bookDto.id +"'>Delete</a>";
-                    tdComments.innerHTML = "<a href='/comment/getAllByBookId?id=" + bookDto.id +"'>Check comments</a>";
+                    tdComments.innerHTML = "<a href='/comment?id=" + bookDto.id +"'>Check comments</a>";
 
                     tr.append(tdId, tdTitle, tdAuthor, tdGenre, tdEdit, tdDelete, tdComments)
                     table.appendChild(tr);
                 })
         );
-
 </script>
 
 </body>

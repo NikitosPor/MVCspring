@@ -14,7 +14,6 @@ import ru.otus.mvcspring.repositories.CommentRepository;
 import java.util.List;
 
 @Controller
-@RequestMapping("/comment")
 public class CommentController {
 
     private final CommentRepository commentRepository;
@@ -24,24 +23,24 @@ public class CommentController {
         this.commentRepository = commentRepository;
     }
 
-    @GetMapping("/getAllByBookId")
-    public String getCommentList(@RequestParam("id") String id, Model model) {
-        List<Comment> commentList = commentRepository.getCommentsByBookId(id);
-        model.addAttribute("commentList", commentList);
-        model.addAttribute("bookId", id);
+//    @GetMapping("/comment")
+//    public String getCommentList(@RequestParam("id") String id, Model model) {
+//        List<Comment> commentList = commentRepository.getCommentsByBookId(id);
+//        model.addAttribute("commentList", commentList);
+//        model.addAttribute("bookId", id);
+//
+//        return "commentList";
+//    }
 
-        return "commentList";
-    }
-
-    @GetMapping("/delete")
+    @GetMapping("/comment/delete")
     public String deleteComment(@RequestParam("id") String id, @RequestParam("bookId") String bookId, Model model, RedirectAttributes redirectAttributes) {
         commentRepository.deleteById(id);
         redirectAttributes.addAttribute("id", bookId);
 
-        return "redirect:/comment/getAllByBookId";
+        return "redirect:/comment";
     }
 
-    @GetMapping("/create")
+    @GetMapping("/comment/create")
     public String makeCommentCreationForm(@RequestParam("bookId") String bookId, Model model) {
         model.addAttribute("comment", new CommentDto());
         model.addAttribute("bookId", bookId);
@@ -49,15 +48,15 @@ public class CommentController {
         return "commentCreate";
     }
 
-    @PostMapping("/create")
+    @PostMapping("/comment/create")
     public String makeCommentSubmit(@RequestParam("bookId") String bookId, @ModelAttribute CommentDto commentDto, Model model, RedirectAttributes redirectAttributes) {
         commentRepository.insertCommentAndLinkWithBookById(bookId, commentDto);
         redirectAttributes.addAttribute("id", bookId);
 
-        return "redirect:/comment/getAllByBookId";
+        return "redirect:/comment";
     }
 
-    @GetMapping("/edit")
+    @GetMapping("/comment/edit")
     public String makeCommentEditForm(@RequestParam("id") String id, @RequestParam("bookId") String bookId, Model model) {
         Comment comment = commentRepository.getCommentById(id);
         model.addAttribute("comment", comment);
@@ -67,12 +66,12 @@ public class CommentController {
         return "commentEdit";
     }
 
-    @PostMapping("/edit")
+    @PostMapping("/comment/edit")
     public String makeCommentEditSubmit(@RequestParam("bookId") String bookId, @ModelAttribute CommentDto commentDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         commentRepository.updateCommentById(commentDto.getId(), commentDto.getComment());
         redirectAttributes.addAttribute("id", bookId);
 
-        return "redirect:/comment/getAllByBookId";
+        return "redirect:/comment";
     }
 
 }

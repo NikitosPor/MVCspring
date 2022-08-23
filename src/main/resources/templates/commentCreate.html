@@ -56,7 +56,7 @@
 
     <div class="row">
         <button type="submit" th:text="#{save-button-caption}">Save</button>
-        <a href="bookList.html" th:href="@{/comment/getAllByBookId(id=${bookId})}">
+        <a href="bookList.html" th:href="@{/comment(id=${bookId})}">
             <button type="button" th:text="#{cancel-button-caption}">Cancel</button>
         </a>
     </div>

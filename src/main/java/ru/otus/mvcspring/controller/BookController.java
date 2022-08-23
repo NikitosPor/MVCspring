@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/book")
 public class BookController {
 
     private final BookRepository bookRepository;
@@ -24,14 +23,14 @@ public class BookController {
         this.bookRepository = bookRepository;
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/book/delete")
     public String deleteBook(@RequestParam("id") String id, Model model) {
         bookRepository.deleteBookWithAllCommentsById(id);
 
         return "redirect:/";
     }
 
-    @GetMapping("/edit")
+    @GetMapping("/book/edit")
     public String editBook(@RequestParam("id") String id, Model model) {
         Book book = bookRepository.findById(id).orElseThrow(NotFoundException::new);
         model.addAttribute("book", book);
@@ -39,7 +38,7 @@ public class BookController {
         return "bookEdit";
     }
 
-    @PostMapping("/edit")
+    @PostMapping("/book/edit")
     public String editBook(@Valid @ModelAttribute("book") BookDto bookDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "bookEdit";
@@ -49,14 +48,14 @@ public class BookController {
         return "redirect:/";
     }
 
-    @GetMapping("/create")
+    @GetMapping("/book/create")
     public String createBookForm(Model model) {
         model.addAttribute("book", new BookDto());
 
         return "bookCreate";
     }
 
-    @PostMapping("/create")
+    @PostMapping("/book/create")
     public String createBookSubmit(@ModelAttribute BookDto bookDto, Model model) {
         bookRepository.insert(bookDto.toDomainObject());
 

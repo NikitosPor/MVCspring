@@ -17,7 +17,7 @@ public class bookDtoRestController {
         this.bookRepository = bookRepository;
     }
 
-    @GetMapping("/book/getAll")
+    @GetMapping("/book")
     public List<BookDto> getBookList() {
         return bookRepository.findAll().stream().map(BookDto::fromDomainObject).collect(Collectors.toList());
     }
