@@ -51,7 +51,7 @@
 <body>
 
 <h3 th:text="#{comments-table-header}">Comments :</h3>
-<div th:with="bookId=${bookId}">
+<div id="div">
     <table style="color: rgb(4, 7, 4);" class="book" border="1" cellpadding="5" cellspacing="1" id="commentTable">
         <thead>
         <tr>
@@ -68,41 +68,40 @@
     <button type="button">
         <a th:href="@{/comment/create(bookId=${bookId})}" th:text="#{create-button-caption}">Create a comment</a>>
     </button>
+    <script type="text/javascript" th:inline="javascript">
+        const table = document.getElementById('commentTable');
+        const div = document.getElementById('div');
+        const id = [[${bookId}]];
+
+        function createNode(elem) {
+            return  document.createElement(elem);
+        }
+
+        function append(parent, elem) {
+            return parent.appendChild(elem);
+        }
+
+        fetch('/comment?bookId='+id)
+            .then((response) => response.json())
+            .then((commentDto) => commentDto
+                .map(function (commentDto) {
+                    let tr = createNode('tr')
+                    let tdId = createNode('td')
+                    let tdComment = createNode('td')
+                    let tdEdit = createNode('td')
+                    let tdDelete = createNode('td')
+
+                    tdId.innerHTML = commentDto.id;
+                    tdComment.innerHTML = commentDto.comment;
+                    tdEdit.innerHTML = "<a href='/comment/edit?id=" + commentDto.id + "&bookId=" + id + "'>Edit</a>";
+                    tdDelete.innerHTML = "<a href='/comment/delete?id=" + commentDto.id + "&bookId=" + id + "'>Delete</a>";
+
+                    tr.append(tdId, tdComment, tdEdit, tdDelete)
+                    table.appendChild(tr);
+                })
+            );
+    </script>
 </div>
-
-
-<script type="text/javascript">
-    const table = document.getElementById('commentTable');
-
-    function createNode(elem) {
-        return  document.createElement(elem);
-    }
-
-    function append(parent, elem) {
-        return parent.appendChild(elem);
-    }
-
-    fetch('/comment')
-        .then((response) => response.json())
-        .then((commentDto) => commentDto
-            .map(function (commentDto) {
-                let tr = createNode('tr')
-                let tdId = createNode('td')
-                let tdComment = createNode('td')
-                let tdEdit = createNode('td')
-                let tdDelete = createNode('td')
-
-                tdId.innerHTML = commentDto.id;
-                tdComment.innerHTML = commentDto.comment;
-                tdEdit.innerHTML = "<a href='/comment/edit?id=" + commentDto.id +"'>Edit</a>";
-                tdDelete.innerHTML = "<a href='/comment/delete?id=" + commentDto.id +"'>Delete</a>";
-
-                tr.append(tdId, tdComment, tdEdit, tdDelete)
-                table.appendChild(tr);
-            })
-        );
-</script>
-
 
 </body>
 </html>

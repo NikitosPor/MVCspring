@@ -22,8 +22,8 @@ public class commentDtoRestController {
     }
 
     @GetMapping("/comment")
-    public List<CommentDto> getCommentList(@RequestParam("id") String id) {
-        List<Comment> commentList = commentRepository.getCommentsByBookId(id);
+    public List<CommentDto> getCommentList(@RequestParam("bookId") String bookId) {
+        List<Comment> commentList = commentRepository.getCommentsByBookId(bookId);
         return commentRepository.findAll().stream().map(CommentDto::fromDomainObject).collect(Collectors.toList());
     }
 

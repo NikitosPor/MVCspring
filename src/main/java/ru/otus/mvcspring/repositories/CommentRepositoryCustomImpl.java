@@ -12,7 +12,6 @@ import ru.otus.mvcspring.domain.Comment;
 import ru.otus.mvcspring.dto.CommentDto;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {

@@ -16,7 +16,6 @@ import javax.validation.constraints.Size;
 public class BookDto {
 
     private String id;
-
     @NotBlank(message = "{title-field-should-not-be-blank}")
     @Size(min = 2, max = 25, message = "{title-field-should-has-expected-size}")
     private String title;
