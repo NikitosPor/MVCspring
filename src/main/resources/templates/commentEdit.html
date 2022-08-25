@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit person</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+
+        h3 {
+            background-image: url("../static/listmark.png");
+            background-repeat: no-repeat;
+            padding: 2px;
+            padding-left: 30px;
+        }
+
+        .errors {
+            color: red;
+        }
+    </style>
+
+    <style type="text/css" th:inline="text">
+        [[h3]] {
+            background-image: url([[@{/listmark.png}]]);
+            background-repeat: no-repeat;
+            padding: 2px;
+            padding-left: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Person edition -->
+<form id="edit-form" action="commentEdit.html" th:action="@{/comment/edit(bookId=${bookId})}" th:method="post" th:object="${comment}">
+    <h3 th:text = "#{comment-creation-form-header}">Comment Info:</h3>
+
+    <div class="row">
+        <label for="id-input">ID:</label>
+        <input id="id-input" type="text" name="id" readonly="readonly" th:value="*{id}" value="1"/>
+    </div>
+
+    <div class="row">
+        <label for="comment-title-input">Comment:</label>
+        <input id="comment-title-input" name="comment" type="text" th:value="*{comment}" value="The greate example of russian culture"/>
+        <div class="errors" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Wrong comment error</div>
+    </div>
+
+    <div class="row">
+        <button type="submit" th:text="#{save-button-caption}">Save</button>
+        <a href="commentList.html" th:href="@{/comment(id=${bookId})}"><button type="button" th:text="#{cancel-button-caption}">Cancel</button></a>
+    </div>
+</form>
+
+</body>
+</html>

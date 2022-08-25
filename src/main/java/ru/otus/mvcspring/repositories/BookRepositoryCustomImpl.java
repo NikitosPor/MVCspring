@@ -1,6 +1,7 @@
 package ru.otus.mvcspring.repositories;
 
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -25,6 +26,13 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
         mongoTemplate.updateFirst(query, update, Book.class);
     }
 
+    @Override
+    public void updateTitleById(String id, String newTitle) {
+        Query query = new Query(Criteria.where("_id").is(new ObjectId(id)));
+        Update update = new Update().set("title", newTitle);
+        mongoTemplate.updateFirst(query, update, Book.class);
+    }
+
 
     @Override
     public void deleteBookWithAllCommentsByTitle(String bookTitle) {
@@ -37,7 +45,19 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
         } finally {
             mongoTemplate.findAllAndRemove(queryBook, Book.class);
         }
+    }
 
+    @Override
+    public void deleteBookWithAllCommentsById(String bookId) {
+        Query queryBook = new Query(Criteria.where("_id").is(new ObjectId(bookId)));
+        try {
+            List<String> commentsId = mongoTemplate.findOne(queryBook, Book.class).getComments().stream().map(Comment::getId).collect(Collectors.toList());
+            commentRepository.deleteByIdIn(commentsId);
+        } catch (Exception npe) {
+            //нет комментов
+        } finally {
+            mongoTemplate.findAllAndRemove(queryBook, Book.class);
+        }
     }
 
 }
