@@ -18,7 +18,6 @@ public class BookController {
 
     private final BookRepository bookRepository;
 
-    //@Autowired
     public BookController(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }

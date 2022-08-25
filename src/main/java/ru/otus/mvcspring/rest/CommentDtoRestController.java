@@ -4,20 +4,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.mvcspring.domain.Comment;
-import ru.otus.mvcspring.dto.BookDto;
 import ru.otus.mvcspring.dto.CommentDto;
-import ru.otus.mvcspring.repositories.BookRepository;
 import ru.otus.mvcspring.repositories.CommentRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class commentDtoRestController {
+public class CommentDtoRestController {
 
     private final CommentRepository commentRepository;
 
-    public commentDtoRestController(CommentRepository commentRepository) {
+    public CommentDtoRestController(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }
 

@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class bookDtoRestController {
+public class BookDtoRestController {
 
     private final BookRepository bookRepository;
 
-    public bookDtoRestController(BookRepository bookRepository) {
+    public BookDtoRestController(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
