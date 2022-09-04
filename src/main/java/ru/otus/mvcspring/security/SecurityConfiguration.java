@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.otus.mvcspring.domain.User;
 import ru.otus.mvcspring.repositories.UserRepository;
 
 @EnableWebSecurity
@@ -30,14 +31,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
 
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        User userAdmin = userRepository.findUserByName("admin");
         auth.inMemoryAuthentication()
-                .withUser("todo").password("todo");
+                .withUser(userAdmin.getName()).password(userAdmin.getPassword()).roles("ADMIN");
     }
 
 }
