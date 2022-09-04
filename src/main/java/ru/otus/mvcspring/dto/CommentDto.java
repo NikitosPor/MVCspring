@@ -3,10 +3,7 @@ package ru.otus.mvcspring.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.otus.mvcspring.domain.Author;
-import ru.otus.mvcspring.domain.Book;
 import ru.otus.mvcspring.domain.Comment;
-import ru.otus.mvcspring.domain.Genre;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
