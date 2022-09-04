@@ -1,5 +1,3 @@
-package ru.otus.mvcspring.domain;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +20,10 @@ public class User {
     public User(String name) {
         this.name = name;
     }
+
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
 }
+

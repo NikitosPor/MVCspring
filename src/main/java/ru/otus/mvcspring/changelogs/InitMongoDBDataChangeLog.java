@@ -3,14 +3,8 @@ package ru.otus.mvcspring.changelogs;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
-import ru.otus.mvcspring.domain.Author;
-import ru.otus.mvcspring.domain.Book;
-import ru.otus.mvcspring.domain.Comment;
-import ru.otus.mvcspring.domain.Genre;
-import ru.otus.mvcspring.repositories.AuthorRepository;
-import ru.otus.mvcspring.repositories.BookRepository;
-import ru.otus.mvcspring.repositories.CommentRepository;
-import ru.otus.mvcspring.repositories.GenreRepository;
+import ru.otus.mvcspring.domain.*;
+import ru.otus.mvcspring.repositories.*;
 
 
 @ChangeLog(order = "001")
@@ -33,6 +27,11 @@ public class InitMongoDBDataChangeLog {
     private Comment comment5;
     private Comment comment6;
     private Comment comment7;
+
+
+    private User user1;
+    private User user2;
+    private User user3;
 
 
     @ChangeSet(order = "000", id = "dropDB", author = "np", runAlways = true)
@@ -76,5 +75,12 @@ public class InitMongoDBDataChangeLog {
         repository.save(new Book("Silent Don", author3, genre2));
         repository.save(new Book("Sherlock Holmes", author4, genre3));
         repository.save(new Book("Taras Bulba", author5, genre2));
+    }
+
+    @ChangeSet(order = "005", id = "initUser", author = "np", runAlways = true)
+    public void initUsers(UserRepository repository) {
+        user1 = repository.save(new User("admin", "admin"));
+        user2 = repository.save(new User("user1", "user1"));
+        user3 = repository.save(new User("user2", "user2"));
     }
 }
