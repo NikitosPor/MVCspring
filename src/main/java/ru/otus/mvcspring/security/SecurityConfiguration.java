@@ -1,24 +1,28 @@
 package ru.otus.mvcspring.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.otus.mvcspring.domain.User;
-import ru.otus.mvcspring.repositories.UserRepository;
+import ru.otus.mvcspring.services.CustomUserDetailsService;
 
+@Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    //@Autowired
+    //@Qualifier("userDetailsService")
+    private final UserDetailsService service;
 
-    private final UserRepository userRepository;
-
-    @Autowired
-    public SecurityConfiguration(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public SecurityConfiguration(CustomUserDetailsService service) {
+        this.service = service;
     }
 
     @Override
@@ -32,17 +36,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(service).passwordEncoder(passwordEncoder());
     }
 
-    @Autowired
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        User userAdmin = userRepository.findUserByName("admin");
-        auth.inMemoryAuthentication()
-                .withUser(userAdmin.getName()).password(userAdmin.getPassword()).roles("ADMIN");
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+     //   return new BCryptPasswordEncoder();
+            return NoOpPasswordEncoder.getInstance();
     }
+
+//    @Autowired
+//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+//
+//    }
 
 }
 

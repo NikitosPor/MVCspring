@@ -1,31 +1,34 @@
 package ru.otus.mvcspring.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Document
 public class User {
 
     @Id
     private String id;
-    private String name;
+    private String userName;
 
     private String password;
 
-    public User(String name) {
-        this.name = name;
+    public User(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
     }
 
-    public User(String name, String password) {
-        this.name = name;
-        this.password = password;
+    public User(){}
+
+    public User(User user) {
+    this.id = user.id;
+    this.userName = user.getUsername();
+    this.password = user.getPassword();
+    }
+
+    public String getUsername() {
+        return this.userName;
+    }
+
+    public String getPassword() {
+        return this.password;
     }
 }
 
