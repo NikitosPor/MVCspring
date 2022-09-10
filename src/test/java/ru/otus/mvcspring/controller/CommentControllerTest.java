@@ -10,37 +10,22 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.otus.mvcspring.domain.Author;
-import ru.otus.mvcspring.domain.Book;
-import ru.otus.mvcspring.domain.Comment;
-import ru.otus.mvcspring.domain.Genre;
 import ru.otus.mvcspring.repositories.BookRepository;
 import ru.otus.mvcspring.repositories.CommentRepository;
+import ru.otus.mvcspring.security.SecurityConfiguration;
 import ru.otus.mvcspring.services.CustomUserDetailsService;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(CommentController.class)
-@ContextConfiguration(classes = CommentController.class)
+@ContextConfiguration(classes = {CommentController.class, SecurityConfiguration.class})
 class CommentControllerTest {
 
 
     public static final String BOOK_ID = "A1";
-    public static final Comment COMMENT_1 = new Comment("C1", "CCC");
-    public static final Comment COMMENT_2 = new Comment("C2", "CCC");
-    public static final List<Comment> LIST_OF_COMMENTS = List.of(COMMENT_1, COMMENT_2);
-    public static final Genre GENRE = new Genre("GGG");
-    public static final Author AUTHOR = new Author("AAA");
-    public static final Book BOOK = new Book(BOOK_ID, "TTT", AUTHOR, GENRE, COMMENT_1);
+    public static final String COMMENT_ID = "C1";
 
     @MockBean
     private CommentRepository commentRepository;
@@ -64,11 +49,29 @@ class CommentControllerTest {
 
     @Test
     void getBookListTest() throws Exception {
-        bookRepository.insert(BOOK);
-
-        given(commentRepository.getCommentsByBookId(BOOK_ID)).willReturn(LIST_OF_COMMENTS);
-
-        mockMvc.perform(get("/comment/getAllByBookId").param("bookId", BOOK_ID))
+//        bookRepository.insert(BOOK);
+        mockMvc.perform(get("/comment/getAllByBookId").param("id", BOOK_ID))
                 .andExpect(status().isOk());
     }
+    @Test
+    void deleteCommentTest() throws Exception {
+//        bookRepository.insert(BOOK);
+        mockMvc.perform(get("/comment/delete").param("id", COMMENT_ID).param("bookId", BOOK_ID))
+                .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    void makeCommentCreationFormTest() throws Exception {
+//        bookRepository.insert(BOOK);
+        mockMvc.perform(get("/comment/create").param("bookId",BOOK_ID))
+                .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    void makeCommentEditFormTest() throws Exception {
+//        bookRepository.insert(BOOK);
+        mockMvc.perform(get("/comment/edit").param("bookId",BOOK_ID))
+                .andExpect(status().is3xxRedirection());
+    }
+
 }
