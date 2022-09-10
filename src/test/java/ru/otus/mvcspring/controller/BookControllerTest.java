@@ -11,8 +11,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.mvcspring.changelogs.InitMongoDBDataChangeLog;
+import ru.otus.mvcspring.domain.Author;
+import ru.otus.mvcspring.domain.Book;
+import ru.otus.mvcspring.domain.Comment;
+import ru.otus.mvcspring.domain.Genre;
 import ru.otus.mvcspring.repositories.BookRepository;
 import ru.otus.mvcspring.services.CustomUserDetailsService;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,6 +28,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(BookController.class)
 @ContextConfiguration(classes = {BookController.class, InitMongoDBDataChangeLog.class})
 class BookControllerTest {
+
+    public static final String BOOK_ID = "A1";
+    public static final Comment COMMENT_1 = new Comment("C1", "CCC");
+    public static final Comment COMMENT_2 = new Comment("C2", "CCC");
+    public static final List<Comment> LIST_OF_COMMENTS = List.of(COMMENT_1, COMMENT_2);
+    public static final Genre GENRE = new Genre("GGG");
+    public static final Author AUTHOR = new Author("AAA");
+    public static final Book BOOK = new Book(BOOK_ID, "TTT", AUTHOR, GENRE, COMMENT_1);
 
     @MockBean
     private BookRepository bookRepository;
@@ -48,9 +62,10 @@ class BookControllerTest {
 
     @Test
     void getBookDeleteTest() throws Exception {
+        bookRepository.insert(BOOK);
 
         mockMvc.perform(get("/book/delete")
-                        .param("id", "A1"))
+                        .param("id", BOOK_ID))
                 .andExpect(status().isOk());
     }
 }
