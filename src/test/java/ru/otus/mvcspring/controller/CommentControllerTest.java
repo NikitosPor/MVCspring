@@ -10,20 +10,19 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.otus.mvcspring.repositories.BookRepository;
+import ru.otus.mvcspring.repositories.CommentRepository;
 import ru.otus.mvcspring.services.CustomUserDetailsService;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(BookController.class)
-@ContextConfiguration(classes = BookController.class)
-class BookControllerTest {
+@WebMvcTest(CommentController.class)
+@ContextConfiguration(classes = CommentController.class)
+class CommentControllerTest {
 
     @MockBean
-    private BookRepository bookRepository;
+    private CommentRepository commentRepository;
 
     @MockBean
     private CustomUserDetailsService customUserDetailsService;
@@ -41,15 +40,7 @@ class BookControllerTest {
 
     @Test
     void getBookListTest() throws Exception {
-        mockMvc.perform(get("/book/getAll"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void getBookDeleteTest() throws Exception {
-
-        mockMvc.perform(get("/book/delete")
-                        .param("id", "A1"))
+        mockMvc.perform(get("/comment/getAllByBookId?bookId=lkasdjlsakj"))
                 .andExpect(status().isOk());
     }
 }
