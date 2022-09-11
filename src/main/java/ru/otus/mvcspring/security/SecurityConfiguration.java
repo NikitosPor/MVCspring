@@ -29,8 +29,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/book/getAll", "/book/delete", "/book/edit", "/book/create",
-                        "/comment/getAllByBookId", "/comment/delete", "/comment/create", "/comment/edit")
+                .antMatchers("/book/*",
+                        "/comment/*")
                 .authenticated()
                 .and()
                 .formLogin();
