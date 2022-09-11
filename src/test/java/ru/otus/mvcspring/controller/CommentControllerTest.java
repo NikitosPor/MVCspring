@@ -49,7 +49,6 @@ class CommentControllerTest {
 
     @Test
     void getBookListTest() throws Exception {
-//        bookRepository.insert(BOOK);
         mockMvc.perform(get("/comment/getAllByBookId").param("id", BOOK_ID))
                 .andExpect(status().isOk());
     }
@@ -62,14 +61,12 @@ class CommentControllerTest {
 
     @Test
     void makeCommentCreationFormTest() throws Exception {
-//        bookRepository.insert(BOOK);
         mockMvc.perform(get("/comment/create").param("bookId",BOOK_ID))
                 .andExpect(status().is3xxRedirection());
     }
 
     @Test
     void makeCommentEditFormTest() throws Exception {
-//        bookRepository.insert(BOOK);
         mockMvc.perform(get("/comment/edit").param("bookId",BOOK_ID))
                 .andExpect(status().is3xxRedirection());
     }
