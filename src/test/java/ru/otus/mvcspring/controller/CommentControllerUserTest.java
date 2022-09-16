@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(CommentController.class)
 @ContextConfiguration(classes = {CommentController.class, SecurityConfiguration.class})
-class CommentControllerTest {
+class CommentControllerUserTest {
 
 
     public static final String BOOK_ID = "A1";
@@ -42,33 +42,34 @@ class CommentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
-    )
+    //@BeforeEach
 
     @Test
+    @WithMockUser(username = "admin", authorities = {"ROLE_USER"})
     void getBookListTest() throws Exception {
         mockMvc.perform(get("/comment/getAllByBookId").param("id", BOOK_ID))
                 .andExpect(status().isOk());
     }
     @Test
+    @WithMockUser(username = "admin", authorities = {"ROLE_USER"})
     void deleteCommentTest() throws Exception {
 //        bookRepository.insert(BOOK);
         mockMvc.perform(get("/comment/delete").param("id", COMMENT_ID).param("bookId", BOOK_ID))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
+    @WithMockUser(username = "admin", authorities = {"ROLE_USER"})
     void makeCommentCreationFormTest() throws Exception {
         mockMvc.perform(get("/comment/create").param("bookId",BOOK_ID))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
+    @WithMockUser(username = "admin", authorities = {"ROLE_USER"})
     void makeCommentEditFormTest() throws Exception {
         mockMvc.perform(get("/comment/edit").param("bookId",BOOK_ID))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is4xxClientError());
     }
 
 }

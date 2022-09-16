@@ -25,10 +25,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/book/*",
-                        "/comment/*")
-                .authenticated()
+                .authorizeRequests().antMatchers("/book/getAll", "/comment/getAllByBookId", "/book/delete", "/book/edit", "/book/create", "/comment/delete", "/comment/edit", "/comment/create").hasAuthority("ROLE_ADMIN")
+                .and().authorizeRequests().antMatchers("/book/getAll", "/comment/getAllByBookId").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .and().authorizeRequests().antMatchers("/**").authenticated()
                 .and()
                 .formLogin();
     }
@@ -40,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-            return NoOpPasswordEncoder.getInstance();
+        return NoOpPasswordEncoder.getInstance();
     }
 
 

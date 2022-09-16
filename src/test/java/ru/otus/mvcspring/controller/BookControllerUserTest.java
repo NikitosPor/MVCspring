@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(BookController.class)
 @ContextConfiguration(classes = {BookController.class, SecurityConfiguration.class})
-class BookControllerTest {
+class BookControllerUserTest {
 
     public static final String BOOK_ID = "A1";
 
@@ -36,35 +36,34 @@ class BookControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
-    )
-
+    @WithMockUser(username = "TEST", authorities = {"ROLE_USER"})
     @Test
     void getBookListTest() throws Exception {
         mockMvc.perform(get("/book/getAll"))
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser(username = "TEST", authorities = {"ROLE_USER"})
     @Test
     void getBookDeleteTest() throws Exception {
         mockMvc.perform(get("/book/delete")
                         .param("id", BOOK_ID))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is4xxClientError());
     }
 
+    @WithMockUser(username = "TEST", authorities = {"ROLE_USER"})
     @Test
     void editBookTest() throws Exception {
         mockMvc.perform(get("/book/edit")
                         .param("id", BOOK_ID))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is4xxClientError());
     }
 
+    @WithMockUser(username = "TEST", authorities = {"ROLE_USER"})
     @Test
     void createBookFormTest() throws Exception {
         mockMvc.perform(get("/book/create")
                         .param("id", BOOK_ID))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is4xxClientError());
     }
 }

@@ -4,11 +4,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.Objects;
 
 public class CustomUserDetails extends User implements UserDetails {
 
-   // private static final long serialVersionUID = 1L;
+    // private static final long serialVersionUID = 1L;
     private final User user;
 
     public CustomUserDetails(User user) {
@@ -18,7 +20,8 @@ public class CustomUserDetails extends User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN");
+       String role = (Objects.equals(this.user.getRole(), "ADMIN")) ? "ROLE_ADMIN" : "ROLE_USER";
+        return AuthorityUtils.commaSeparatedStringToAuthorityList(role);
     }
 
     @Override

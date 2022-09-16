@@ -79,8 +79,8 @@ public class InitMongoDBDataChangeLog {
 
     @ChangeSet(order = "005", id = "initUser", author = "np", runAlways = true)
     public void initUsers(UserRepository repository) {
-        user1 = repository.save(new User("admin", "admin"));
-        user2 = repository.save(new User("user1", "user1"));
-        user3 = repository.save(new User("user2", "user2"));
+        user1 = repository.save(new User("admin", "admin", "ADMIN"));
+        user2 = repository.save(new User("user1", "user1", "USER"));
+        user3 = repository.save(new User("user2", "user2", "USER"));
     }
 }
